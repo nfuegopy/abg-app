@@ -6,7 +6,10 @@ import ClienteView from '@/components/referenciales/Clientes/view/ClienteView.vu
 import JuzgadoView from '@/components/referenciales/Juzgado/view/JuzgadoView.vue';
 import SecretariaView from '@/components/referenciales/Secretaria/view/SecretariaView.vue';
 import DemandadoView from '@/components/referenciales/Demandado/view/DemandadoView.vue';
-
+import RolesView from '../components/admin/roles/view/RolesView.vue';
+import UsersView from '@/components/admin/users/view/UsersView.vue';
+import UserRolesView from '../components/admin/userroles/view/UserRolesView.vue';
+import authGuard from './authGuard';
 const routes = [
   {
     path: '/',
@@ -16,6 +19,7 @@ const routes = [
   {
     path: '/home',
     component: MainLayout,
+    meta: { requiresAuth: true },
     children: [
       {
         path: '',
@@ -42,7 +46,21 @@ const routes = [
         name: 'Demandado',
         component: DemandadoView,
       },
-      // Agrega más rutas según sea necesario
+      {
+        path: 'roles',
+        name: 'Roles',
+        component: RolesView,
+      },
+      {
+        path: 'users',
+        name: 'Users',
+        component: UsersView,
+      },
+      {
+        path: 'user-roles',
+        name: 'UserRoles',
+        component: UserRolesView,
+      },
     ],
   },
 ];
@@ -51,5 +69,7 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+
+router.beforeEach(authGuard);
 
 export default router;

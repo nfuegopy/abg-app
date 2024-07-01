@@ -7,15 +7,15 @@
             <v-row no-gutters>
               <v-col cols="12" md="5" class="left-column">
                 <v-img src="@/assets/icon/login/log.png" class="avatar"></v-img>
-                <h2>Inicio de Sesion</h2>
+                <h2>Inicio de Sesión</h2>
                 <div class="line">──────</div>
                 <a href="#">Política de privacidad</a>
               </v-col>
               <v-col cols="12" md="7" class="right-column">
                 <v-form @submit.prevent="login">
                   <v-text-field
-                    v-model="username"
-                    label="Usuario"
+                    v-model="email"
+                    label="Email"
                     outlined
                     hide-details
                     dense
@@ -44,40 +44,35 @@
       </v-row>
     </v-container>
     <v-footer class="footer">
-      <v-col class="text-center">
-        <v-btn icon href="https://www.linkedin.com" target="_blank">
-          <v-icon>mdi-linkedin</v-icon>
-        </v-btn>
-        <v-btn icon href="https://www.instagram.com" target="_blank">
-          <v-icon>mdi-instagram</v-icon>
-        </v-btn>
-        <v-btn icon href="https://www.twitter.com" target="_blank">
-          <v-icon>mdi-twitter</v-icon>
-        </v-btn>
-      </v-col>
+      <!-- Footer content -->
     </v-footer>
   </v-app>
 </template>
 
 <script>
+import AuthService from '@/services/AuthService';
+
 export default {
   data() {
     return {
-      username: '',
+      email: '',
       password: '',
       rememberMe: false,
     };
   },
   methods: {
-    login() {
-      console.log('Username:', this.username);
-      console.log('Password:', this.password);
-      console.log('Remember Me:', this.rememberMe);
+    async login() {
+      try {
+        await AuthService.login(this.email, this.password);
+        this.$router.push('/home');
+      } catch (error) {
+        console.error('Login failed', error);
+        // Aquí puedes añadir lógica para mostrar un mensaje de error
+      }
     },
   },
 };
 </script>
-
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
 
